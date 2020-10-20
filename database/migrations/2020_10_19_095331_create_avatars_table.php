@@ -14,11 +14,11 @@ class CreateAvatarsTable extends Migration
     public function up()
     {
         Schema::create('avatars', function (Blueprint $table) {
-            $table->id();
+            #$table->id();
             $table->string('telefono', 25);
             $table->text('avatar');
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id');#->primary();
             // relazione con la table user
             $table->foreign('user_id')->references('id')->on('users')
             ->onDelete('cascade')->onUpdate('cascade');
