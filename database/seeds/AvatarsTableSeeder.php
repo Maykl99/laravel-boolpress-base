@@ -23,6 +23,6 @@ class AvatarsTableSeeder extends Seeder
             $avatarNew->user_id= $user->id;
             $avatarNew->save();
         }
-
+        
     }
 }

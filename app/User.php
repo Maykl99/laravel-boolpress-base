@@ -37,7 +37,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    #relazione con avatar
     public function avatar(){
         return $this->hasOne('App\Avatar');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
     }
 }
