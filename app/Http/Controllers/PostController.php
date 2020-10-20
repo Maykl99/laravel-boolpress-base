@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Post;
+use App\User;
 
 class PostController extends Controller
 {
@@ -13,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts= Post::orderBy('id','desc')->get();
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -23,7 +26,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all();
+        return view('posts.create', compact('users'));
     }
 
     /**
@@ -34,7 +38,23 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        #dd($request);
+        $data =$request->all();
+
+        #validazione dei campi form di posts.create
+        $request->validate([
+            'title' => 'required|min:5|max:100',
+            'body' => 'required|min:5|max:100',
+            'user_id' => 'required|numeric|exists:users,id' #deve esistere e deve chiamarsi id in quella tabella
+        ]);
+
+        $postNew = new Post();
+        $postNew->fill($data); #metodo fill prende tutti i campi
+        $saved= $postNew->save();
+
+        if($saved){
+            return redirect()->route('posts.index')->with('status','Hai inserito correttamente il post');
+        }
     }
 
     /**
